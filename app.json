@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.finefelines.dingo"
     },
     "web": {
       "bundler": "metro",
@@ -28,10 +29,7 @@
     },
     "plugins": [
       "expo-router",
-      "@react-native-google-signin/google-signin",
-        {
-          "iosUrlScheme": "com.googleusercontent.apps._some_id_here_"
-        }
+      "@react-native-google-signin/google-signin"
     ],
     "experiments": {
       "typedRoutes": true
