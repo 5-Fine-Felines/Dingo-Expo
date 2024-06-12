@@ -1,13 +1,6 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import 'react-native-gesture-handler';
+import { registerRootComponent } from 'expo';
+import AppNavigator from '../routs/navigators/AppNavigator';
 
-const index = () => {
-  return (
-    <View className='flex-1 bg-color-red'>
-      <Text className='text text-xl font-bold text-green-700'>index</Text>
-      <Text className='text text-xl font-bold text-green-700'>index2</Text>
-    </View>
-  )
-}
-
-export default index;
+// Register the main component to the app
+registerRootComponent(AppNavigator);
