@@ -2,8 +2,30 @@ import * as React from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
 import { Color, FontFamily, FontSize, Border } from "../app/GlobalStyles";
+import { useNavigation } from "@react-navigation/native";
+import { useEffect } from "react";
+import { RootStackParamList, SCREENS } from '../routes/StackRoutes'
+import { StackNavigationProp } from "@react-navigation/stack";
+
+type ScreenSplashNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  typeof SCREENS.SPLASH
+>;
 
 const ScreenSplash = () => {
+
+    const navigation = useNavigation<ScreenSplashNavigationProp>();
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      navigation.navigate(SCREENS.ONBOARDING); // Navigate to onboarding screen after 3 seconds
+    }, 3000);
+
+    return () => clearTimeout(timeoutId); // Cleanup function to avoid memory leaks
+  }, [navigation]);
+
+
+
     return (
         <View style={styles.onboarding}>
             <Text style={[styles.dingo, styles.toTypo]}>Dingo</Text>

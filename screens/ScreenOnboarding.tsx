@@ -20,12 +20,12 @@ const ScreenOnboarding = () => {
       <Image
         style={styles.oolzfw0RemovebgPreview1Icon}
         contentFit="cover"
-        source={require("../assets/oolzfw0removebgpreview-1.png")}
+        source={require("../assets/images/oolzfw0removebgpreview-1.png")}
       />
       <Image
         style={styles.splashItem}
         contentFit="cover"
-        source={require("../assets/rectangle-1.png")}
+        source={require("../assets/images/rectangle-1.png")}
       />
       <Text
         style={[styles.getStarted, styles.getStartedTypo]}
@@ -135,4 +135,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Splash;
+export default ScreenOnboarding;
