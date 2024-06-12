@@ -1,6 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthLogin from '@/screens/AuthLogin';
+import ScreenSplash from '@/screens/ScreenSplash';
 
 
 const SCREENS = {
@@ -17,7 +18,7 @@ const StackRoutes = () => {
         <Stack.Navigator initialRouteName={SCREENS.HOME}>
             <Stack.Screen
                 name={SCREENS.HOME}
-                component={AuthLogin}
+                component={ScreenSplash}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>
