@@ -1,6 +1,13 @@
-import 'react-native-gesture-handler';
-import { registerRootComponent } from 'expo';
-import AppNavigator from '../routs/navigators/AppNavigator';
+import { View, Text } from 'react-native'
+import React from 'react'
+import Auth from '@/screens/AuthLogin';
 
-// Register the main component to the app
-registerRootComponent(AppNavigator);
+const index = () => {
+  return (
+    <View className='flex-1 bg-color-red'>
+      <Auth />
+    </View>
+  )
+}
+
+export default index;
