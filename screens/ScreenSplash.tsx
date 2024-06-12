@@ -11,9 +11,7 @@ const ScreenSplash = () => {
             <Text style={[styles.to, styles.toTypo]}>to</Text>
             <Text
                 style={[styles.pawsitivelyUnforgettableCare, styles.welcomeFlexBox]}
-            >{`Positively Unforgettable Care
- for 
-Your Furry Family`}</Text>
+            >{`Positively Unforgettable Care for Your Furry Family`}</Text>
             <Image
                 style={styles.amusedtallcirripedMax1mb1Icon}
                 contentFit="cover"
