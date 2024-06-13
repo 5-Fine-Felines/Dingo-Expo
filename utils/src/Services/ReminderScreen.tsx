@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Button } from 'react-native';
-import { createReminder, getReminderById, updateReminder, deleteReminder } from '../../src/Services/reminderService'; 
+import { createReminder, getReminderById, updateReminder, deleteReminder } from './reminderService'; 
 
 const ReminderScreen = () => {
   const [reminder, setReminder] = useState<{ id: number; title: string; description: string; datetime: string } | null>(null);
