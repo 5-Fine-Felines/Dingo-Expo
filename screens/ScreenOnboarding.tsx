@@ -4,6 +4,8 @@ import { Image } from "expo-image";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation, ParamListBase } from "@react-navigation/native";
 import { FontSize, Color, FontFamily, Border } from "../app/GlobalStyles";
+import { SCREENS } from "@/routes/ScreenConstants";
+
 
 const ScreenOnboarding = () => {
   const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
@@ -11,7 +13,7 @@ const ScreenOnboarding = () => {
   return (
     <Pressable
       style={styles.splash}
-      onPress={() => navigation.navigate("CreateAnAccount")}
+      onPress={() => navigation.navigate(SCREENS.LOGIN)}
     >
       <View style={styles.splashChild} />
       <Text style={styles.dingo}>D I N G O</Text>
