@@ -4,8 +4,9 @@ import { Image } from "expo-image";
 import { Color, FontFamily, FontSize, Border } from "../app/GlobalStyles";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
-import { RootStackParamList, SCREENS } from '../routes/StackRoutes'
+import { RootStackParamList } from '../routes/StackRoutes'
 import { StackNavigationProp } from "@react-navigation/stack";
+import { SCREENS } from "@/routes/ScreenConstants";
 
 type ScreenSplashNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -18,7 +19,7 @@ const ScreenSplash = () => {
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      navigation.navigate(SCREENS.ONBOARDING); // Navigate to onboarding screen after 3 seconds
+      navigation.replace(SCREENS.ONBOARDING); // Navigate to onboarding screen after 3 seconds
     }, 3000);
 
     return () => clearTimeout(timeoutId); // Cleanup function to avoid memory leaks

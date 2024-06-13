@@ -2,15 +2,11 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ScreenSplash from '@/screens/ScreenSplash';
 import ScreenOnboarding from '@/screens/ScreenOnboarding';
+import ScreenAuth from '@/screens/ScreenAuth';
+import { SCREENS } from './ScreenConstants';
 
 
-export const SCREENS = {
-    SPLASH: 'SPLASH',
-    ONBOARDING: 'ONBOARDING',
-    LOGIN: 'LOGIN',
-    REGISTER: 'REGISTER',
-    HOME: 'HOME',
-  } as const;
+
 
   export type RootStackParamList = {
     [SCREENS.SPLASH]: undefined;
@@ -34,6 +30,11 @@ const StackRoutes = () => {
             <Stack.Screen
                 name={SCREENS.ONBOARDING}
                 component={ScreenOnboarding}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name={SCREENS.LOGIN}
+                component={ScreenAuth}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>
