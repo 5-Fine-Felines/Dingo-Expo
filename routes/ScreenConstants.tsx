@@ -3,5 +3,5 @@ export const SCREENS = {
     ONBOARDING: 'ONBOARDING',
     LOGIN: 'LOGIN',
     REGISTER: 'REGISTER',
-    HOME: 'HOME',
+    USERHOME: 'USERHOME',
   } as const;
