@@ -1,47 +1,63 @@
-// Library.js
-
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Modal, TextInput } from 'react-native';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import HeaderBar from '@/components/HeaderBar';
 
 const Library = () => {
   const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [petName, setPetName] = useState('');
+  const [animalType, setAnimalType] = useState('');
+  const [breed, setBreed] = useState('');
+  const [sex, setSex] = useState('');
+  const [birthDay, setBirthDay] = useState('');
+  const [note, setNote] = useState('');
 
   const pets = [
-    { id: '1', name: 'Pedro', description: 'In sit proident' },
-    { id: '2', name: 'Ryan', description: 'Et qui velit' },
-    { id: '3', name: 'Brian', description: 'Elit ut qui duis' },
+    { id: '1', name: 'Pedro', description: 'In sit proident', path: require('../../assets/images/pup01.jpg') },
+    { id: '2', name: 'Ryan', description: 'Et qui velit', path: require('../../assets/images/pup02.jpg') },
+    { id: '3', name: 'Brian', description: 'Elit ut qui duis', path: require('../../assets/images/pup03.jpg') },
   ];
 
   const contacts = [
-    { id: '1', name: 'Dr. Anna Jones', specialty: 'General Practitioner', rating: 4.5 },
-    { id: '2', name: 'Dr. John Smith', specialty: 'Veterinarian', rating: 4.8 },
+    { id: '1', name: 'Dr. Anna Jones', specialty: 'General Practitioner', rating: 4.5, path: require('../../assets/images/doc1.jpeg') },
+    { id: '2', name: 'Dr. John Smith', specialty: 'Veterinarian', rating: 4.8, path: require('../../assets/images/doc2.jpeg') },
   ];
 
-/*   const handlePetCardPress = (pet) => {
-    navigation.navigate('PetDetails', { pet });
+  const handleAddPetPress = () => {
+    setModalVisible(true);
   };
 
-  const handleContactCardPress = (contact) => {
-    navigation.navigate('ContactDetails', { contact });
-  }; */
+  const handleCancel = () => {
+    setModalVisible(false);
+    // Reset form
+    setPetName('');
+    setAnimalType('');
+    setBreed('');
+    setSex('');
+    setBirthDay('');
+    setNote('');
+  };
+
+  const handleSubmit = () => {
+    // Handle form submission
+    // Add new pet to the pets array or send to backend
+    console.log('New Pet:', { petName, animalType, breed, sex, birthDay, note });
+    setModalVisible(false);
+    // Reset form
+    setPetName('');
+    setAnimalType('');
+    setBreed('');
+    setSex('');
+    setBirthDay('');
+    setNote('');
+  };
 
   return (
     <ScrollView style={styles.container}>
       {/* Header Section */}
-      <View style={styles.header}>
-        <View style={styles.profileSection}>
-          <Image
-            source={{ uri: 'https://via.placeholder.com/50' }}
-            style={styles.profileIcon}
-          />
-          <Text style={styles.profileName}>Carl Jonson</Text>
-        </View>
-        <TouchableOpacity style={styles.announcementButton}>
-          <MaterialIcons name="announcement" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
+      <HeaderBar />
 
       {/* Conversation Section */}
       <View style={styles.conversationSection}>
@@ -69,15 +85,15 @@ const Library = () => {
       <View style={styles.petsSection}>
         <View style={styles.petsHeader}>
           <Text style={styles.sectionTitle}>My Pets</Text>
-          <TouchableOpacity style={styles.addPetButton}>
+          <TouchableOpacity style={styles.addPetButton} onPress={handleAddPetPress}>
             <FontAwesome name="plus" size={16} color="white" />
             <Text style={styles.addPetButtonText}>Add My Pet</Text>
           </TouchableOpacity>
         </View>
         {pets.map(pet => (
-          <TouchableOpacity key={pet.id} style={styles.petCard} /* onPress={() => handlePetCardPress(pet)} */>
+          <TouchableOpacity key={pet.id} style={styles.petCard}>
             <Image
-              source={{ uri: 'https://via.placeholder.com/50' }}
+              source={pet.path}
               style={styles.petImage}
             />
             <View style={styles.petInfo}>
@@ -92,9 +108,9 @@ const Library = () => {
       <View style={styles.lastContactSection}>
         <Text style={styles.sectionTitle}>Last Contact</Text>
         {contacts.map(contact => (
-          <TouchableOpacity key={contact.id} style={styles.doctorCard} /* onPress={() => handleContactCardPress(contact)} */>
+          <TouchableOpacity key={contact.id} style={styles.doctorCard}>
             <Image
-              source={{ uri: 'https://via.placeholder.com/50' }}
+              source={contact.path}
               style={styles.profileIcon}
             />
             <View style={styles.doctorInfo}>
@@ -112,11 +128,65 @@ const Library = () => {
       {/* Calendar Section */}
       <View style={styles.calendarSection}>
         <Text style={styles.calendarTitle}>Next available today at 03:30 PM</Text>
-  
-{/* Calendar ekak metenna demmnm hari */}
-
-   
       </View>
+
+      {/* Add Pet Modal */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalTitle}>Add New Pet</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Name"
+              value={petName}
+              onChangeText={setPetName}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Animal Type"
+              value={animalType}
+              onChangeText={setAnimalType}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Breed"
+              value={breed}
+              onChangeText={setBreed}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Sex"
+              value={sex}
+              onChangeText={setSex}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Birth Day"
+              value={birthDay}
+              onChangeText={setBirthDay}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Note"
+              value={note}
+              onChangeText={setNote}
+            />
+            <View style={styles.modalButtons}>
+              <TouchableOpacity style={styles.cancelButton} onPress={handleCancel}>
+                <Text style={styles.buttonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+                <Text style={styles.buttonText}>Submit</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
@@ -249,8 +319,58 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
   },
-
-
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalView: {
+    width: '80%',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  input: {
+    width: '100%',
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  cancelButton: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#ccc',
+    padding: 10,
+    borderRadius: 5,
+    marginRight: 5,
+  },
+  submitButton: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#ff8c00',
+    padding: 10,
+    borderRadius: 5,
+    marginLeft: 5,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
 });
 
 export default Library;
