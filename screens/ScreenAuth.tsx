@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Image } from "expo-image";
-import { Alert, AppState, Button, StyleSheet, Text, View } from "react-native";
+import { Alert, AppState, Button, StyleSheet, Text, TextInput, View } from "react-native";
 import { supabase } from "@/utils/supabase";
-
 import { SCREENS } from "@/routes/ScreenConstants";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -88,16 +87,14 @@ const ScreenAuth = () => {
         contentFit="cover"
         source={require("../assets/images/google-1.png")}
       />
-      <Input
-        label='Email Address'
+      <TextInput
         onChangeText={(text) => setEmail(text)}
         value={email}
-        placeholder="email@address.com"
+        placeholder="Email Address"
         autoCapitalize='none'
         style={[]}
       />
-      <Input
-        label="Password"
+      <TextInput
         onChangeText={(text) => setPassword(text)}
         value={password}
         secureTextEntry
@@ -316,8 +313,9 @@ const styles = StyleSheet.create({
     top: 386,
   },
   subtractIcon: {
-    width: 437,
-    height: 230,
+  marginTop:20,
+    width: 200,
+    height: 200,
   },
   forgetPassword: {
     fontSize: FontSize.size_xl,
