@@ -59,10 +59,10 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   dingo: {
-    top: 386,
+    top: 400,
     left: 65,
     fontSize: FontSize.size_45xl,
-    lineHeight: 48,
+    lineHeight: 60,
     fontWeight: "800",
     fontFamily: FontFamily.poppinsExtraBold,
     textAlign: "center",
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   fineFelines: {
-    top: 782,
+    top: 770,
     left: 117,
     lineHeight: 26,
     fontFamily: FontFamily.fredokaOne,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   slider1: {
-    top: 647,
+    top: 600,
     left: 114,
     backgroundColor: Color.colorGray_400,
     width: 176,
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   oolzfw0RemovebgPreview1Icon: {
-    top: 33,
+    top: 30,
     left: 75,
     borderRadius: Border.br_95xl,
     width: 234,
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
     fontFamily: FontFamily.fredokaSemiBold,
     width: 281,
-    height: 21,
+    height: 25,
   },
   splash: {
     shadowColor: "rgba(18, 15, 40, 0.12)",
