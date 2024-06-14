@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Image } from "expo-image";
-import { Alert, AppState, Button, StyleSheet, Text, View } from "react-native";
+import { Alert, AppState, Button, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { supabase } from "@/utils/supabase";
-
 import { SCREENS } from "@/routes/ScreenConstants";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "@/routes/StackRoutes";
 import { Border, Color, FontFamily, FontSize } from "@/app/GlobalStyles";
-import { Input } from "@rneui/themed";
+
 
 type ScreenSplashNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -71,33 +70,39 @@ const ScreenAuth = () => {
         contentFit="cover"
         source={require("../assets/images/good-doggybro-1.png")}
       />
-      <Text style={styles.orConnectWith}>or connect with</Text>
-      <View style={[styles.rectangleParent, styles.createLayout]}>
-        <View style={[styles.frameChild, styles.frameBg]} />
-        <Text style={[styles.login, styles.loginTypo]}>Login</Text>
+  
+      <View style={[styles.rectangleParent]}>
+        <View style={[styles.createLayout]}>
+          <TouchableOpacity onPress={signInWithEmail}>
+            <View style={[styles.frameChild, styles.frameBg]} />
+          </TouchableOpacity>
+          <Text style={[styles.login, styles.loginTypo]}>Login</Text>
+        </View>
+        <View style={[styles.createLayout, { top: 50 }]}>
+          <TouchableOpacity onPress={signUpWithEmail}>
+            <View style={[styles.frameChild, styles.frameBg]} />
+          </TouchableOpacity>
+          <Text style={[styles.register, styles.loginTypo]}>Register</Text>
+        </View>
       </View>
-      <View style={[styles.createAnAccountInner, styles.createLayout]}>
+
+      <View style={[styles.emailInner, styles.createLayout]}>
         <View style={[styles.frameItem, styles.frameItemLayout]} />
       </View>
-      <View style={[styles.createAnAccountItem, styles.createLayout]} />
-      <Text style={[styles.loginWithGoogle, styles.passwordTypo]}>
-        Login with Google
-      </Text>
-      <Image
-        style={styles.google1Icon}
-        contentFit="cover"
-        source={require("../assets/images/google-1.png")}
-      />
-      <Input
-        label='Email Address'
+      <View style={[styles.passwordInner, styles.createLayout]}>
+        <View style={[styles.frameItem, styles.frameItemLayout]} />
+      </View>
+      
+      
+      
+      <TextInput
         onChangeText={(text) => setEmail(text)}
         value={email}
-        placeholder="email@address.com"
+        placeholder="Email Address"
         autoCapitalize='none'
-        style={[]}
+        style={[styles.emailAddress, styles.dingoPosition]}
       />
-      <Input
-        label="Password"
+      <TextInput
         onChangeText={(text) => setPassword(text)}
         value={password}
         secureTextEntry
@@ -125,18 +130,21 @@ const ScreenAuth = () => {
         contentFit="cover"
         source={require("../assets/images/lock.png")}
       />
-      <View style={styles.subtractIcon}>
-        <Button title="Sign in" disabled={loading} onPress={signInWithEmail} />
+
+      <View style={{ width: '100%', alignItems: "center", top: 500 }}>
+
+        <View style={styles.subtractIcon}>
+
+          <Button
+            title='Next'
+            onPress={() => {
+              navigation.navigate(SCREENS.USERHOME);
+            }}
+          />
+        </View>
+
       </View>
-      <View style={styles.subtractIcon}>
-        <Button title="Sign up" disabled={loading} onPress={signUpWithEmail} />
-        <Button
-          title='Next'
-          onPress={() => {
-            navigation.navigate(SCREENS.USERHOME);
-          }}
-        />
-      </View>
+
       <View style={[styles.forgetPasswordWrapper, styles.forgetLayout]}>
         <Text style={[styles.forgetPassword, styles.forgetLayout]}>
           Forget Password?
@@ -181,7 +189,7 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.fredokaRegular,
   },
   dingoPosition: {
-    left: 150,
+    left: 90,
     fontSize: FontSize.size_xl,
     position: "absolute",
   },
@@ -230,6 +238,16 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.fredokaMedium,
     fontWeight: "500",
   },
+  register: {
+    top: 8,
+    left: 101,
+    textTransform: "uppercase",
+    width: 124,
+    fontSize: FontSize.size_6xl,
+    color: Color.colorWhite,
+    fontFamily: FontFamily.fredokaMedium,
+    fontWeight: "500",
+  },
   rectangleParent: {
     top: 507,
     width: 318,
@@ -245,8 +263,14 @@ const styles = StyleSheet.create({
     backgroundColor: Color.colorDarkorange,
     left: 0,
   },
-  createAnAccountInner: {
+  emailInner: {
     top: 298,
+    left: 22,
+    borderRadius: 150,
+    width: 346,
+  },
+  passwordInner: {
+    top: 378,
     left: 22,
     borderRadius: 150,
     width: 346,
@@ -316,8 +340,9 @@ const styles = StyleSheet.create({
     top: 386,
   },
   subtractIcon: {
-    width: 437,
-    height: 230,
+    marginTop: 200,
+    width: 200,
+    height: 200,
   },
   forgetPassword: {
     fontSize: FontSize.size_xl,
@@ -329,7 +354,7 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.fredokaRegular,
   },
   forgetPasswordWrapper: {
-    top: 575,
+    top: 625,
     left: 208,
     height: 24,
   },
@@ -342,13 +367,13 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   dingo: {
-    top: 204,
+    top: 220,
     lineHeight: 48,
     fontWeight: "800",
     fontFamily: FontFamily.poppinsExtraBold,
     textAlign: "center",
     color: Color.colorBlack,
-    left: 150,
+    marginLeft:60
   },
   createAnAccount: {
     shadowColor: "rgba(0, 0, 0, 0.25)",
