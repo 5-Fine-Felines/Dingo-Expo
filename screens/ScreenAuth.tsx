@@ -1,9 +1,68 @@
 import * as React from "react";
 import { Image } from "expo-image";
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, AppState, StyleSheet, Text, TextInput, View } from "react-native";
 import { Color, FontFamily, Border, FontSize } from "../app/GlobalStyles";
+import { supabase } from "@/utils/supabase";
+import { useState } from "react";
+import { Button, Input } from "@rneui/themed";
+import { SCREENS } from "@/routes/ScreenConstants";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "@/routes/StackRoutes";
+
+AppState.addEventListener('change', (state) => {
+  if (state === 'active') {
+    supabase.auth.startAutoRefresh()
+  } else {
+    supabase.auth.stopAutoRefresh()
+  }
+})
+
+type ScreenAuthNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  typeof SCREENS.LOGIN
+>;
 
 const ScreenAuth = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  async function signInWithEmail() {
+    setLoading(true)
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+      
+    })
+
+    if (error) Alert.alert(error.message)
+    setLoading(false)
+  }
+
+  async function signUpWithEmail() {
+    setLoading(true)
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+      options: {
+        data: {
+          user_role: 'user',
+        },
+      },
+    })
+
+    if (error) Alert.alert(error.message)
+    if (!session) Alert.alert('Please check your inbox for email verification!')
+    setLoading(false)
+  }
+
+  const navigation = useNavigation<ScreenAuthNavigationProp>();
+
+
   return (
     <View style={styles.createAnAccount}>
       <Image
@@ -19,11 +78,11 @@ const ScreenAuth = () => {
       <View style={[styles.createAnAccountInner, styles.createLayout]}>
         <View style={[styles.frameItem, styles.frameItemLayout]} />
       </View>
-      <Image
+      {/* <Image
         style={[styles.createAnAccountChild, styles.frameItemLayout]}
         contentFit="cover"
         source={require("../assets/images/rectangle-6.png")}
-      />
+      /> */}
       <View style={[styles.createAnAccountItem, styles.createLayout]} />
       <Text style={[styles.loginWithGoogle, styles.passwordTypo]}>
         Login with Google
@@ -33,8 +92,20 @@ const ScreenAuth = () => {
         contentFit="cover"
         source={require("../assets/images/google-1.png")}
       />
-      <Text style={[styles.emailAddress, styles.loginTypo]}>Email Address</Text>
-      <Text style={[styles.password, styles.dingoPosition]}>Password</Text>
+      <Input label='Email Address'
+        onChangeText={(text) => setEmail(text)}
+        value={email}
+        placeholder="email@address.com"
+        autoCapitalize={'none'}
+        style={[]} />
+      <Input label="Password"
+        onChangeText={(text) => setPassword(text)}
+        value={password}
+        secureTextEntry={true}
+        placeholder="Password"
+        autoCapitalize={'none'}
+        style={[styles.password, styles.dingoPosition]} />
+        
       <Image
         style={styles.ellipseIcon}
         contentFit="cover"
@@ -55,11 +126,16 @@ const ScreenAuth = () => {
         contentFit="cover"
         source={require("../assets/images/lock.png")}
       />
-      <Image
-        style={styles.subtractIcon}
-        contentFit="cover"
-        source={require("../assets/images/subtract.png")}
-      />
+      <View style={styles.subtractIcon}>
+        <Button title="Sign in" disabled={loading} onPress={() => signInWithEmail()} />
+      </View>
+      <View style={styles.subtractIcon}>
+        <Button title="Sign up" disabled={loading} onPress={() => signUpWithEmail()} />
+          <Button title='next' onPress={() => {
+            navigation.navigate(SCREENS.USERHOME);
+          }} />
+      </View>
+      
       <View style={[styles.forgetPasswordWrapper, styles.forgetLayout]}>
         <Text style={[styles.forgetPassword, styles.forgetLayout]}>
           Forget Password?
