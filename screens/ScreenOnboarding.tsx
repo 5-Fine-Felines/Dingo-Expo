@@ -5,15 +5,20 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation, ParamListBase } from "@react-navigation/native";
 import { FontSize, Color, FontFamily, Border } from "../app/GlobalStyles";
 import { SCREENS } from "@/routes/ScreenConstants";
+import { RootStackParamList } from "@/routes/StackRoutes";
 
+type ScreenSplashNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  typeof SCREENS.ONBOARDING
+>;
 
 const ScreenOnboarding = () => {
-  const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
+  const navigation = useNavigation<ScreenSplashNavigationProp>();
 
   return (
     <Pressable
       style={styles.splash}
-      onPress={() => navigation.navigate(SCREENS.LOGIN)}
+      onPress={() => navigation.navigate(SCREENS.AUTH)}
     >
       <View style={styles.splashChild} />
       <Text style={styles.dingo}>D I N G O</Text>

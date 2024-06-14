@@ -5,6 +5,7 @@ import UserHome from '@/screens/ScreenHomeNavigation/UserHome';
 import Search from '@/screens/ScreenHomeNavigation/Search';
 import Feed from '@/screens/ScreenHomeNavigation/Feed';
 import Library from '@/screens/ScreenHomeNavigation/Library';
+import UserProfile from '@/screens/UserProfile';
 
 const BottomNav = createBottomTabNavigator();
 
