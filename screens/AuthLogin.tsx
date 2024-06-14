@@ -58,7 +58,7 @@ export default function Auth() {
           autoCapitalize={'none'}
         />
       </View>
-      <View style={styles.verticallySpaced}>
+      <View style={[styles.verticallySpaced, styles.mt20]}>
         <Input
           label="Password"
           leftIcon={{ type: 'font-awesome', name: 'lock' }}

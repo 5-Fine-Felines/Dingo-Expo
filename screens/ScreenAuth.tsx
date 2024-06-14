@@ -184,10 +184,11 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   passwordTypo: {
-    color: Color.colorDarkorange,
-    textAlign: "left",
+    color: 'black', // Change the color to black
+    textAlign: 'left',
     fontFamily: FontFamily.fredokaRegular,
   },
+
   dingoPosition: {
     left: 90,
     fontSize: FontSize.size_xl,
@@ -311,7 +312,7 @@ const styles = StyleSheet.create({
   },
   password: {
     top: 386,
-    color: Color.colorDarkorange,
+    color: 'black', 
     textAlign: "left",
     fontFamily: FontFamily.fredokaRegular,
   },
