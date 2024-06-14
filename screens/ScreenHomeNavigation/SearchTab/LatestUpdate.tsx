@@ -14,6 +14,7 @@ const LatestUpdate = () => {
     // Handle card press event
     console.log('Card pressed', id);
   }; */
+  
 
   return (
     <View style={styles.container}>
