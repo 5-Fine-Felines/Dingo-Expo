@@ -1,51 +1,55 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { Image } from "expo-image";
-import { Alert, AppState, StyleSheet, Text, TextInput, View } from "react-native";
-import { Color, FontFamily, Border, FontSize } from "../app/GlobalStyles";
+import { Alert, AppState, Button, StyleSheet, Text, View } from "react-native";
 import { supabase } from "@/utils/supabase";
-import { useState } from "react";
-import { Button, Input } from "@rneui/themed";
+
 import { SCREENS } from "@/routes/ScreenConstants";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "@/routes/StackRoutes";
+import { Border, Color, FontFamily, FontSize } from "@/app/GlobalStyles";
+import { Input } from "@rneui/themed";
 
-AppState.addEventListener('change', (state) => {
-  if (state === 'active') {
-    supabase.auth.startAutoRefresh()
-  } else {
-    supabase.auth.stopAutoRefresh()
-  }
-})
-
-type ScreenAuthNavigationProp = StackNavigationProp<
+type ScreenSplashNavigationProp = StackNavigationProp<
   RootStackParamList,
-  typeof SCREENS.LOGIN
+  typeof SCREENS.AUTH // Correct screen constant
 >;
 
 const ScreenAuth = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
+  const navigation = useNavigation<ScreenSplashNavigationProp>();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (state) => {
+      if (state === 'active') {
+        supabase.auth.startAutoRefresh();
+      } else {
+        supabase.auth.stopAutoRefresh();
+      }
+    });
+
+    // Cleanup subscription on component unmount
+    return () => {
+      subscription.remove();
+    };
+  }, []);
 
   async function signInWithEmail() {
-    setLoading(true)
+    setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
-      
-    })
+    });
 
-    if (error) Alert.alert(error.message)
-    setLoading(false)
+    if (error) Alert.alert(error.message);
+    setLoading(false);
   }
 
   async function signUpWithEmail() {
-    setLoading(true)
-    const {
-      data: { session },
-      error,
-    } = await supabase.auth.signUp({
+    setLoading(true);
+    const { data: { session }, error } = await supabase.auth.signUp({
       email: email,
       password: password,
       options: {
@@ -53,15 +57,12 @@ const ScreenAuth = () => {
           user_role: 'user',
         },
       },
-    })
+    });
 
-    if (error) Alert.alert(error.message)
-    if (!session) Alert.alert('Please check your inbox for email verification!')
-    setLoading(false)
+    if (error) Alert.alert(error.message);
+    if (!session) Alert.alert('Please check your inbox for email verification!');
+    setLoading(false);
   }
-
-  const navigation = useNavigation<ScreenAuthNavigationProp>();
-
 
   return (
     <View style={styles.createAnAccount}>
@@ -78,11 +79,6 @@ const ScreenAuth = () => {
       <View style={[styles.createAnAccountInner, styles.createLayout]}>
         <View style={[styles.frameItem, styles.frameItemLayout]} />
       </View>
-      {/* <Image
-        style={[styles.createAnAccountChild, styles.frameItemLayout]}
-        contentFit="cover"
-        source={require("../assets/images/rectangle-6.png")}
-      /> */}
       <View style={[styles.createAnAccountItem, styles.createLayout]} />
       <Text style={[styles.loginWithGoogle, styles.passwordTypo]}>
         Login with Google
@@ -92,20 +88,23 @@ const ScreenAuth = () => {
         contentFit="cover"
         source={require("../assets/images/google-1.png")}
       />
-      <Input label='Email Address'
+      <Input
+        label='Email Address'
         onChangeText={(text) => setEmail(text)}
         value={email}
         placeholder="email@address.com"
-        autoCapitalize={'none'}
-        style={[]} />
-      <Input label="Password"
+        autoCapitalize='none'
+        style={[]}
+      />
+      <Input
+        label="Password"
         onChangeText={(text) => setPassword(text)}
         value={password}
-        secureTextEntry={true}
+        secureTextEntry
         placeholder="Password"
-        autoCapitalize={'none'}
-        style={[styles.password, styles.dingoPosition]} />
-        
+        autoCapitalize='none'
+        style={[styles.password, styles.dingoPosition]}
+      />
       <Image
         style={styles.ellipseIcon}
         contentFit="cover"
@@ -127,15 +126,17 @@ const ScreenAuth = () => {
         source={require("../assets/images/lock.png")}
       />
       <View style={styles.subtractIcon}>
-        <Button title="Sign in" disabled={loading} onPress={() => signInWithEmail()} />
+        <Button title="Sign in" disabled={loading} onPress={signInWithEmail} />
       </View>
       <View style={styles.subtractIcon}>
-        <Button title="Sign up" disabled={loading} onPress={() => signUpWithEmail()} />
-          <Button title='next' onPress={() => {
+        <Button title="Sign up" disabled={loading} onPress={signUpWithEmail} />
+        <Button
+          title='Next'
+          onPress={() => {
             navigation.navigate(SCREENS.USERHOME);
-          }} />
+          }}
+        />
       </View>
-      
       <View style={[styles.forgetPasswordWrapper, styles.forgetLayout]}>
         <Text style={[styles.forgetPassword, styles.forgetLayout]}>
           Forget Password?
