@@ -1,34 +1,26 @@
 import { supabase } from '../../supabase';
+import { Product } from './types';
 
-type Pet = {
-  id: string;
-  image_url: string;
-  name: string;
-  breed: string;
-  address: string;
-  special_notes: string;
-  medical_notes: string;
-  next_injection_date: string; 
-};
-
-export const getPets = async (): Promise<Pet[] | null> => {
+// Fetch all products from the database
+export const getProducts = async (): Promise<Product[] | null> => {
   try {
     const { data, error } = await supabase
-      .from('pets')
+      .from('products')
       .select('*');
 
     if (error) throw error;
     return data;
   } catch (error) {
-    console.error('Error fetching pets:', error);
+    console.error('Error fetching products:', error);
     return null;
   }
 };
 
-export const getPetById = async (id: string): Promise<Pet | null> => {
+// Fetch a single product by its ID
+export const getProductById = async (id: string): Promise<Product | null> => {
   try {
     const { data, error } = await supabase
-      .from('pets')
+      .from('products')
       .select('*')
       .eq('id', id)
       .single();
@@ -36,51 +28,54 @@ export const getPetById = async (id: string): Promise<Pet | null> => {
     if (error) throw error;
     return data;
   } catch (error) {
-    console.error('Error fetching pet:', error);
+    console.error('Error fetching product:', error);
     return null;
   }
 };
 
-export const createPet = async (pet: Omit<Pet, 'id'>): Promise<Pet | null> => {
+// Create a new product in the database
+export const createProduct = async (product: Omit<Product, 'id'>): Promise<Product | null> => {
   try {
     const { data, error } = await supabase
-      .from('pets')
-      .insert([pet]);
+      .from('products')
+      .insert([product]);
 
     if (error) throw error;
-    return data[0];
+    return data ? data[0] : null;
   } catch (error) {
-    console.error('Error creating pet:', error);
+    console.error('Error creating product:', error);
     return null;
   }
 };
 
-export const updatePet = async (id: string, pet: Partial<Pet>): Promise<Pet | null> => {
+// Update an existing product in the database
+export const updateProduct = async (id: string, product: Partial<Product>): Promise<Product | null> => {
   try {
     const { data, error } = await supabase
-      .from('pets')
-      .update(pet)
+      .from('products')
+      .update(product)
       .eq('id', id);
 
     if (error) throw error;
-    return data[0];
+    return data ? data[0] : null;
   } catch (error) {
-    console.error('Error updating pet:', error);
+    console.error('Error updating product:', error);
     return null;
   }
 };
 
-export const deletePet = async (id: string): Promise<boolean> => {
+// Delete a product from the database
+export const deleteProduct = async (id: string): Promise<boolean> => {
   try {
     const { error } = await supabase
-      .from('pets')
+      .from('products')
       .delete()
       .eq('id', id);
 
     if (error) throw error;
     return true;
   } catch (error) {
-    console.error('Error deleting pet:', error);
+    console.error('Error deleting product:', error);
     return false;
   }
 };
