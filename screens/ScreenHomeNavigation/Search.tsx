@@ -1,83 +1,20 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList, Image } from 'react-native';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import HeaderBar from '@/components/HeaderBar';
+import SearchTabNavBar from './SearchTabNavigation/SearchTabNavBar';
 
-/* import { useNavigation } from '@react-navigation/native'; */
+
 
 const Search = () => {
-  const [searchText, setSearchText] = React.useState("");
-
-  /* const navigation = useNavigation(); */
-
-  const handleSearch = () => {
-    console.log("Searching for:", searchText);
-  };
-
-  const pets = [
-    { id: '1', name: 'Pedro', status: 'In sit proident' },
-    { id: '2', name: 'Ryan', status: 'Et qui velit' },
-    { id: '3', name: 'Brian', status: 'Elit ut qui duis' },
-  ];
-
-  const reminders = [
-    { id: '1', title: 'Meeting title', type: 'External' },
-    { id: '2', title: 'Another meeting', type: 'External' },
-  ];
-
- /*  const handleCardPress = (pet) => {
-    pula methenna path eka demmanm hari mn hitanne
-  }; */
+  
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.profileContainer}>
-          <Image source={{ uri: 'https://via.placeholder.com/40' }} style={styles.profileImage} />
-          <Text style={styles.profileName}>Carl Jonson</Text>
-        </View>
-        <TouchableOpacity style={styles.announcementButton}>
-          <FontAwesome name="bullhorn" size={24} color="orange" />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Search"
-          value={searchText}
-          onChangeText={setSearchText}
-        />
-        <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-          <MaterialIcons name="search" size={24} color="white" />
-        </TouchableOpacity>
-      </View>
-      <Text style={styles.heading}>My Pets</Text>
-      <FlatList
-        data={pets}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity style={styles.petCard} /* onPress={() => handleCardPress(item)} */ >
-            <Image source={{ uri: 'https://via.placeholder.com/100' }} style={styles.petImage} />
-            <View style={styles.petTextContainer}>
-              <Text style={styles.petName}>{item.name}</Text>
-              <Text style={styles.petStatus}>{item.status}</Text>
-            </View>
-          </TouchableOpacity>
-        )}
-      />
-      <Text style={styles.remindersHeading}>Reminders</Text>
-      <FlatList
-        data={reminders}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.reminderItem}>
-            <Text style={styles.reminderTitle}>{item.title}</Text>
-            <View style={styles.reminderTypeContainer}>
-              <Text style={styles.reminderType}>{item.type}</Text>
-              <FontAwesome name="external-link" size={16} color="orange" />
-            </View>
-          </View>
-        )}
-      />
+      <HeaderBar />
+      <SearchTabNavBar />
+      
     </View>
   );
 };
