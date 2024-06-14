@@ -13,12 +13,14 @@ interface Pet {
   age: string;
   vaccinationDetails: string;
   notes: string;
+  vaccinations: { name: string, date: string, status: string }[];
 }
 
 const UserHome = () => {
   const [searchText, setSearchText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
+  const [vaccinationModalVisible, setVaccinationModalVisible] = useState(false);
 
   const handleSearch = () => {
     console.log("Searching for:", searchText);
@@ -34,6 +36,14 @@ const UserHome = () => {
     setSelectedPet(null);
   };
 
+  const handleVaccinationPress = () => {
+    setVaccinationModalVisible(true);
+  };
+
+  const handleCloseVaccinationModal = () => {
+    setVaccinationModalVisible(false);
+  };
+
   const pets: Pet[] = [
     { 
       id: '1',
@@ -44,7 +54,12 @@ const UserHome = () => {
       birthday: '2020-01-15',
       age: '4 years',
       vaccinationDetails: 'Rabies, DHPP',
-      notes: 'Friendly and energetic'
+      notes: 'Friendly and energetic',
+      vaccinations: [
+        { name: 'Rabies', date: '2023-01-15', status: 'Vaccinated' },
+        { name: 'DHPP', date: '2023-02-20', status: 'Vaccinated' },
+        { name: 'Leptospirosis', date: '2024-03-20', status: 'Pending' },
+      ]
     },
     { 
       id: '2', 
@@ -55,7 +70,12 @@ const UserHome = () => {
       birthday: '2019-06-20',
       age: '5 years',
       vaccinationDetails: 'Rabies, DHPP, Leptospirosis',
-      notes: 'Loves to play fetch'
+      notes: 'Loves to play fetch',
+      vaccinations: [
+        { name: 'Rabies', date: '2022-06-20', status: 'Vaccinated' },
+        { name: 'DHPP', date: '2023-07-22', status: 'Vaccinated' },
+        { name: 'Leptospirosis', date: '2024-08-01', status: 'Pending' },
+      ]
     },
     { 
       id: '3', 
@@ -66,7 +86,11 @@ const UserHome = () => {
       birthday: '2021-08-25',
       age: '3 years',
       vaccinationDetails: 'Rabies, DHPP',
-      notes: 'Curious and playful'
+      notes: 'Curious and playful',
+      vaccinations: [
+        { name: 'Rabies', date: '2023-09-10', status: 'Vaccinated' },
+        { name: 'DHPP', date: '2023-10-15', status: 'Vaccinated' },
+      ]
     }
   ];
 
@@ -133,9 +157,44 @@ const UserHome = () => {
               <Text style={styles.modalPetDetails}>Breed: {selectedPet.breed}</Text>
               <Text style={styles.modalPetDetails}>Birthday: {selectedPet.birthday}</Text>
               <Text style={styles.modalPetDetails}>Age: {selectedPet.age}</Text>
-              <Text style={styles.modalPetDetails}>Vaccination Details: {selectedPet.vaccinationDetails}</Text>
+              {/* <Text style={styles.modalPetDetails}>Vaccination Details: {selectedPet.vaccinationDetails}</Text> */}
               <Text style={styles.modalPetDetails}>Notes: {selectedPet.notes}</Text>
-              <Button title="Close" onPress={handleCloseModal} />
+              <TouchableOpacity style={styles.vaccinationButton} onPress={handleVaccinationPress}>
+                <Text style={styles.vaccinationButtonText}>Vaccination</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.closeButton} onPress={handleCloseModal}>
+                <Text style={styles.closeButtonText}>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      )}
+
+      {/* Modal for Vaccination Details */}
+      {selectedPet && (
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={vaccinationModalVisible}
+          onRequestClose={handleCloseVaccinationModal}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalHeading}>Vaccination Details</Text>
+              <FlatList
+                data={selectedPet.vaccinations}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => (
+                  <View style={styles.vaccinationItem}>
+                    <Text style={styles.vaccinationText}>Vaccine Name: {item.name}</Text>
+                    <Text style={styles.vaccinationText}>Date: {item.date}</Text>
+                    <Text style={styles.vaccinationText}>Status: {item.status}</Text>
+                  </View>
+                )}
+              />
+              <TouchableOpacity style={styles.closeButton} onPress={handleCloseVaccinationModal}>
+                <Text style={styles.closeButtonText}>Close</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </Modal>
@@ -283,6 +342,41 @@ const styles = StyleSheet.create({
   modalPetDetails: {
     fontSize: 16,
     marginBottom: 4,
+  },
+  vaccinationButton: {
+    marginTop: 10,
+    backgroundColor: 'orange',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  vaccinationButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  closeButton: {
+    marginTop: 10,
+    backgroundColor: 'orange',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  modalHeading: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  vaccinationItem: {
+    marginBottom: 8,
+  },
+  vaccinationText: {
+    fontSize: 16,
   },
 });
 
