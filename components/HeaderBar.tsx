@@ -13,58 +13,53 @@ const HeaderBar = () => {
   const navigation = useNavigation<HeaderBarNavigationProp>();
 
   return (
-    <View style={{ height: 80, width: '100%', backgroundColor: 'red' }}>
-      <Image
-        style={[styles.iconButton1, styles.buttonIconLayout]}
-        contentFit="cover"
-        source={require("../assets/images/icon-button-1.png")}
-      />
-      <TouchableOpacity onPress={() => {
-        navigation.navigate(SCREENS.USERPROFILE);
-      }}>
-        <Image
-          style={[styles.avatar1Icon, styles.buttonIconLayout]}
-          contentFit="cover"
-          source={require("../assets/images/avatar-1.png")}
-        />
-        <Text style={[styles.carlJonson, styles.amPosition]}>Carl Jonson</Text>
-      </TouchableOpacity>
+    <View style={{ height: 70, width: '100%' }}>
+
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => { navigation.navigate(SCREENS.USERPROFILE); }}>
+          <View style={styles.profileContainer}>
+            <Image source={require("../assets/images/avatar-1.png")} style={styles.profileImage} />
+            <Text style={styles.profileName}>Carl Jonson</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.announcementButton}>
+          <Image
+            style={styles.profileImage}
+            source={require("../assets/images/icon-button-1.png")}
+          />
+        </TouchableOpacity>
+      </View>
+
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  buttonIconLayout: {
-    height: 36,
-    position: "absolute",
-    overflow: "hidden",
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
   },
-  avatar1Icon: {
-    left: 21,
-    width: 36,
-    height: 36,
-    top: 34,
+  profileContainer: {
+    width: 150,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  amPosition: {
-    top: 41,
-    textAlign: "left",
-    position: "absolute",
+  profileImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    margin: 8,
   },
-  carlJonson: {
-    left: 84,
-    fontWeight: "800",
-    fontFamily: FontFamily.manropeExtraBold,
-    color: Color.colorGray_200,
-    lineHeight: 22,
-    fontSize: FontSize.size_sm,
+  profileName: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
-  iconButton1: {
-    left: 334,
-    width: 36,
-    borderRadius: Border.br_lg,
-    height: 36,
-    top: 34,
+  announcementButton: {
+    padding: 0,
   },
+
 });
 
 export default HeaderBar;
