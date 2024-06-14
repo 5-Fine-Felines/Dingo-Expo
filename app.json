@@ -34,6 +34,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "ef756c76-9d2d-4bc9-a64c-7f44d64b162b"
+      }
+    },
+    "owner": "sunethudayanga"
   }
 }
