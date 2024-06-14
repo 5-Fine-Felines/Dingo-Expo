@@ -19,7 +19,8 @@ const BottomNavBar = () => {
                     borderTopLeftRadius: 32,
                     borderTopRightRadius: 32,
                     height: 72,
-                    paddingHorizontal: 36
+                    paddingHorizontal: 36,
+                    backgroundColor:'#ff8c00',
                 }
             }}>
             <BottomNav.Screen
