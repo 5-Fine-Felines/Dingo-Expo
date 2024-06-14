@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Image } from "expo-image";
-import { Alert, AppState, Button, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, AppState, ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { supabase } from "@/utils/supabase";
 import { SCREENS } from "@/routes/ScreenConstants";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "@/routes/StackRoutes";
 import { Border, Color, FontFamily, FontSize } from "@/app/GlobalStyles";
-
 
 type ScreenSplashNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -42,7 +41,11 @@ const ScreenAuth = () => {
       password: password,
     });
 
-    if (error) Alert.alert(error.message);
+    if (error) {
+      Alert.alert('Error', error.message);
+    } else {
+      navigation.navigate(SCREENS.USERHOME);
+    }
     setLoading(false);
   }
 
@@ -58,8 +61,11 @@ const ScreenAuth = () => {
       },
     });
 
-    if (error) Alert.alert(error.message);
-    if (!session) Alert.alert('Please check your inbox for email verification!');
+    if (error) {
+      Alert.alert('Error', error.message);
+    } else if (!session) {
+      Alert.alert('Success', 'Please check your inbox for email verification!');
+    }
     setLoading(false);
   }
 
@@ -70,18 +76,22 @@ const ScreenAuth = () => {
         contentFit="cover"
         source={require("../assets/images/good-doggybro-1.png")}
       />
-  
+      {loading && (
+        <View style={styles.loadingOverlay}>
+          <ActivityIndicator size="large" color={Color.colorDarkorange} />
+        </View>
+      )}
       <View style={[styles.rectangleParent]}>
         <View style={[styles.createLayout]}>
-          <TouchableOpacity onPress={signInWithEmail}>
+          <Pressable onPress={signInWithEmail} disabled={loading}>
             <View style={[styles.frameChild, styles.frameBg]} />
-          </TouchableOpacity>
+          </Pressable>
           <Text style={[styles.login, styles.loginTypo]}>Login</Text>
         </View>
         <View style={[styles.createLayout, { top: 50 }]}>
-          <TouchableOpacity onPress={signUpWithEmail}>
+          <Pressable onPress={signUpWithEmail} disabled={loading}>
             <View style={[styles.frameChild, styles.frameBg]} />
-          </TouchableOpacity>
+          </Pressable>
           <Text style={[styles.register, styles.loginTypo]}>Register</Text>
         </View>
       </View>
@@ -92,8 +102,6 @@ const ScreenAuth = () => {
       <View style={[styles.passwordInner, styles.createLayout]}>
         <View style={[styles.frameItem, styles.frameItemLayout]} />
       </View>
-      
-      
       
       <TextInput
         onChangeText={(text) => setEmail(text)}
@@ -132,17 +140,17 @@ const ScreenAuth = () => {
       />
 
       <View style={{ width: '100%', alignItems: "center", top: 500 }}>
-
         <View style={styles.subtractIcon}>
-
-          <Button
-            title='Next'
+          <Pressable
             onPress={() => {
               navigation.navigate(SCREENS.USERHOME);
             }}
-          />
+            disabled={loading}
+            style={styles.nextButton}
+          >
+            <Text style={styles.nextButtonText}>Next</Text>
+          </Pressable>
         </View>
-
       </View>
 
       <View style={[styles.forgetPasswordWrapper, styles.forgetLayout]}>
@@ -184,11 +192,10 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   passwordTypo: {
-    color: 'black', // Change the color to black
-    textAlign: 'left',
+    color: Color.colorDarkorange,
+    textAlign: "left",
     fontFamily: FontFamily.fredokaRegular,
   },
-
   dingoPosition: {
     left: 90,
     fontSize: FontSize.size_xl,
@@ -312,7 +319,7 @@ const styles = StyleSheet.create({
   },
   password: {
     top: 386,
-    color: 'black', 
+    color: Color.colorDarkorange,
     textAlign: "left",
     fontFamily: FontFamily.fredokaRegular,
   },
@@ -374,7 +381,7 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.poppinsExtraBold,
     textAlign: "center",
     color: Color.colorBlack,
-    marginLeft:60
+    marginLeft: 60,
   },
   createAnAccount: {
     shadowColor: "rgba(0, 0, 0, 0.25)",
@@ -391,6 +398,28 @@ const styles = StyleSheet.create({
     height: 844,
     overflow: "hidden",
     backgroundColor: Color.colorWhite,
+  },
+  loadingOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
+  },
+  nextButton: {
+    backgroundColor: Color.colorDarkorange,
+    borderRadius: Border.br_3xs,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  nextButtonText: {
+    color: Color.colorWhite,
+    fontFamily: FontFamily.fredokaMedium,
+    fontSize: FontSize.size_6xl,
+    textTransform: "uppercase",
   },
 });
 
